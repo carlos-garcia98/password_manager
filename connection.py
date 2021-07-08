@@ -5,10 +5,8 @@ import sys
 
 class Connection:
     
-    password = input('Enter the password => ')
-    
     _USER = 'postgres'
-    _PASSWORD = password
+    _PASSWORD = 'yasuraoka060698'
     _HOST = 'localhost'
     _PORT = '5432'
     _DB = 'password_manager'
