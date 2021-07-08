@@ -5,15 +5,10 @@ import sys
 
 class Connection:
     
-    password = input('Enter the master password => ')
-    encrypted_password = generate_password_hash(password)
-    validate_password = check_password_hash(encrypted_password, password)
+    password = input('Enter the password => ')
     
     _USER = 'postgres'
-    if validate_password:
-        _PASSWORD = password
-    else:
-        log.error('Incorrect password, try again.')
+    _PASSWORD = password
     _HOST = 'localhost'
     _PORT = '5432'
     _DB = 'password_manager'
