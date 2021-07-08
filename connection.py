@@ -1,11 +1,19 @@
 from logger_base import log
 from psycopg2 import pool
+from werkzeug.security import generate_password_hash, check_password_hash
 import sys
 
 class Connection:
     
+    password = input('Enter the master password => ')
+    encrypted_password = generate_password_hash(password)
+    validate_password = check_password_hash(encrypted_password, password)
+    
     _USER = 'postgres'
-    _PASSWORD = 'yasuraoka060698'
+    if validate_password:
+        _PASSWORD = password
+    else:
+        log.error('Incorrect password, try again.')
     _HOST = 'localhost'
     _PORT = '5432'
     _DB = 'password_manager'
@@ -42,7 +50,7 @@ class Connection:
         log.debug(f'All connections closed')
         cls.getPool().closeall()
 
-if __name__ == "__main__":
-    connection1 = Connection.getConnection()
-    Connection.freeConnection(connection1)
-    Connection.closeConnections()
+# if __name__ == "__main__":
+#     connection1 = Connection.getConnection()
+#     Connection.freeConnection(connection1)
+#     Connection.closeConnections()
