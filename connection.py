@@ -42,8 +42,3 @@ class Connection:
     def closeConnections(cls):
         log.debug(f'All connections closed')
         cls.getPool().closeall()
-
-# if __name__ == "__main__":
-#     connection1 = Connection.getConnection()
-#     Connection.freeConnection(connection1)
-#     Connection.closeConnections()

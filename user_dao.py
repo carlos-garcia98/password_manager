@@ -44,19 +44,3 @@ class UserDAO:
             cur.execute(cls._DELETE, values)
             log.info(f'Deleted user: {user}')
             return cur.rowcount
-    
-# if __name__ == '__main__':
-    # insert
-    # user = User(app_name='test', username='test', password='test1', url='test')
-    # inserted_user = UserDAO.insert(user)
-    # log.debug(f'Inserted users: {inserted_user}')
-    
-    # Delete
-    # user = User(id_account=2)
-    # deleted_users = UserDAO.delete(user)
-    # log.debug(f'Deleted users: {deleted_users}')
-    
-    # SELECT
-    # users = UserDAO.select()
-    # for i in users:
-    #     log.debug(i)

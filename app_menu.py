@@ -4,6 +4,7 @@ from logger_base import log
 from werkzeug.security import check_password_hash
 from os import system
 import pyperclip as pc
+import stdiomask
 import random
 
 # Functions
@@ -33,7 +34,8 @@ Use the appropiate number to choose an action.
             print('Invalid opcion, please try again.')
 
 def sign_in():
-    hashed_password = 'pbkdf2:sha256:260000$58R5RfR8SGZ3dhfm$f30b18300689d90fb2dcdf88232f627102c2ce62bbc2a00003a7eb456624bc71' # You can change the content of this variable with another hashed password, so you can use your own master password.
+    # You can change the content of this variable with another hashed password, so you can use your own master password.
+    hashed_password = 'pbkdf2:sha256:260000$58R5RfR8SGZ3dhfm$f30b18300689d90fb2dcdf88232f627102c2ce62bbc2a00003a7eb456624bc71' 
     
     sign_in = '''
 Welcome to yout Password Manager!
@@ -42,7 +44,8 @@ Please enter your password => '''
 
     while True:
 
-        password = input(sign_in)
+        # password = input(sign_in)
+        password = stdiomask.getpass(prompt=sign_in)
         validate_password = check_password_hash(hashed_password, password)
         
         if validate_password:
@@ -69,23 +72,22 @@ Use the appropiate number to choose an action.
         decision = int(input(menu))
         
         if decision == 1:
-            # system('cls')
+            system('cls')
             listAccount()
-            # break
         elif decision == 2:
-            # system('cls')
+            system('cls')
             addAccount()
         elif decision == 3:
-            # system('cls')
+            system('cls')
             modifyAccount()
         elif decision == 4:
-            # system('cls')
+            system('cls')
             deleteAccount()
         elif decision == 5:
-            # system('cls')
+            system('cls')
             generatePassword()
         elif decision == 6:
-            # system('cls')
+            system('cls')
             print('Goodbye!')
             exit()
         else:
@@ -94,20 +96,21 @@ Use the appropiate number to choose an action.
 
 def listAccount():
     accounts = UserDAO.select()
-    print('\n')
-    for i in accounts:
-        log.info(i)
+    if accounts == []:
+        log.info('You have no accounts stored.')
+    else:
+        for i in accounts:
+            log.info(i)
 
 def addAccount():
-    print('\n')
     app_name = input('Enter de site or app name => ')
     username = input('Enter the username => ')
     password = input('Enter the password => ')
     url = input('Enter the url => ')
     print('\n')
-    
     account = User(app_name=app_name, username=username, password=password, url=url) 
     inserted_account = UserDAO.insert(account)
+    print('\n')
     log.info(f'Inserted accounts: {inserted_account}')
     
 def modifyAccount():
@@ -116,7 +119,7 @@ def modifyAccount():
     password = input('Enter the password => ')
     url = input('Enter the url => ')
     id_account = int(input('Enter the id_account => '))
-    
+    print('\n')
     account = User(app_name=app_name, username=username, password=password, url=url, id_account=id_account)
     modified_accounts = UserDAO.update(account)
     print('\n')
@@ -124,7 +127,7 @@ def modifyAccount():
     
 def deleteAccount():
     id_account = int(input('Enter the account id you would like to delete => '))
-    
+    print('\n')
     account = User(id_account=id_account)
     deleted_account = UserDAO.delete(account)
     print('\n')
@@ -137,7 +140,7 @@ def generatePassword():
     all_chars = characters + char_mayus + symbols
     
     length = int(input('Enter the length of your password => '))
-    
+    print('\n')
     for i in range(1):
         a = random.sample(all_chars, length)
         password = ''.join(a)
