@@ -3,7 +3,6 @@ from users import User
 from logger_base import log
 from werkzeug.security import check_password_hash
 from os import system
-from cryptography.fernet import Fernet
 import pyperclip as pc
 import random
 
@@ -107,8 +106,6 @@ def addAccount():
     url = input('Enter the url => ')
     print('\n')
     
-    # encrypted_password = encrypt(password) # Will implemente the encrypt function soon.
-    
     account = User(app_name=app_name, username=username, password=password, url=url) 
     inserted_account = UserDAO.insert(account)
     log.info(f'Inserted accounts: {inserted_account}')
@@ -148,13 +145,6 @@ def generatePassword():
         print('\n')
         print(f'Here is your password: {password}')
         print('Your password has been copied to the clipboard.')
-
-def encrypt(password):
-    key = Fernet.generate_key()
-    f = Fernet(key)
-    token = f.encrypt(str.encode(password))
-    str_token = token.decode()
-    return str_token
 
 # Output
 welcome()
