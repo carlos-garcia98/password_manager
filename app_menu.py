@@ -140,7 +140,6 @@ def generatePassword():
     all_chars = characters + char_mayus + symbols
     
     length = int(input('Enter the length of your password => '))
-    print('\n')
     for i in range(1):
         a = random.sample(all_chars, length)
         password = ''.join(a)

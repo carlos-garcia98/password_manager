@@ -5,7 +5,7 @@ from users import User
 
 class UserDAO:
     
-    _SELECT = 'SELECT * FROM accounts ORDER BY id_account'
+    _SELECT = 'SELECT * FROM accounts ORDER BY app_name'
     _INSERT = 'INSERT INTO accounts(app_name, username, password, url) VALUES(%s, %s, %s, %s)'
     _UPDATE = 'UPDATE accounts SET app_name = %s, username = %s, password = %s, url = %s WHERE id_account = %s'
     _DELETE = 'DELETE FROM accounts WHERE id_account = %s'
