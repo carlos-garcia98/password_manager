@@ -33,7 +33,7 @@ class UserDAO:
     def update(cls, user):
         with Cursor() as cur:
             values = (user.app_name, user.username, user.password, user.url, user.id_account)
-            cur.execute(cls._update, values)
+            cur.execute(cls._UPDATE, values)
             log.info(f'Updated user: {user}')
             return cur.rowcount
     
