@@ -59,11 +59,13 @@ def main_menu():
     menu = '''
 What would you like to do?
     1) List your accounts.
-    2) Add an account.
-    3) Modify an account.
-    4) Delete an account.
-    5) Generate a password.
-    6) Exit.
+    2) Search an account.
+    3) Get the password of an account.
+    4) Add an account.
+    5) Modify an account.
+    6) Delete an account.
+    7) Generate a password.
+    8) Exit.
 Use the appropiate number to choose an action.
  > '''
  
@@ -74,19 +76,19 @@ Use the appropiate number to choose an action.
         if decision == 1:
             system('cls')
             listAccount()
-        elif decision == 2:
-            system('cls')
-            addAccount()
-        elif decision == 3:
-            system('cls')
-            modifyAccount()
         elif decision == 4:
             system('cls')
-            deleteAccount()
+            addAccount()
         elif decision == 5:
             system('cls')
-            generatePassword()
+            modifyAccount()
         elif decision == 6:
+            system('cls')
+            deleteAccount()
+        elif decision == 7:
+            system('cls')
+            generatePassword()
+        elif decision == 8:
             system('cls')
             print('Goodbye!')
             exit()
@@ -101,6 +103,32 @@ def listAccount():
     else:
         for i in accounts:
             log.info(i)
+
+def SearchAccount():
+    menu = '''
+What would you like to do?
+    1) Search by ID.
+    2) Search by App Name.
+    3) Return to main menu.
+Use the appropiate number to choose an action.
+ > '''
+ 
+    while True:
+        
+        decision = int(input(menu))
+        
+        if decision == 1:
+            system('cls')
+            # Take to search by id fucntion.
+        elif decision == 2:
+            system('cls')
+            # Take to search by app name function.
+        elif decision == 3:
+            system('cls')
+            main_menu()
+        else:
+            system('cls')
+            print('Invalid option, try again.')
 
 def addAccount():
     app_name = input('Enter de site or app name => ')

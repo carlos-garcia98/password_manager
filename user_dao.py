@@ -9,6 +9,8 @@ class UserDAO:
     _INSERT = 'INSERT INTO accounts(app_name, username, password, url) VALUES(%s, %s, %s, %s)'
     _UPDATE = 'UPDATE accounts SET app_name = %s, username = %s, password = %s, url = %s WHERE id_account = %s'
     _DELETE = 'DELETE FROM accounts WHERE id_account = %s'
+    _SEARCH_BY_ID = 'SELECT * FROM accounts WHERE id_account = %s'
+    _SEARCH_BY_APP_NAME = 'SELECT * FROM accounts WHERE app_name = %s'
     
     @classmethod
     def select(cls):
@@ -44,3 +46,27 @@ class UserDAO:
             cur.execute(cls._DELETE, values)
             log.info(f'Deleted user: {user}')
             return cur.rowcount
+    
+    @classmethod
+    def searchById(cls, user):
+        with Cursor() as cur:
+            values = (user.id_account,)
+            cur.execute(cls._searchById, values)
+            registers = cur.fetchall()
+            users = []
+            for i in registers:
+                user = User(i[0], i[1], i[2], i[3], i[4])
+                users.append(user)
+            return users
+    
+    @classmethod
+    def searchByAppName(cls, user):
+        with Cursor() as cur:
+            values = (user.app_name,)
+            cur.execute(cls._searchByAppName, values)
+            registers = cur.fetchall()
+            users = []
+            for i in registers:
+                user = User(i[0], i[1], i[2], i[3], i[4])
+                users.append(user)
+            return users
