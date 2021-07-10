@@ -11,6 +11,8 @@ class UserDAO:
     _DELETE = 'DELETE FROM accounts WHERE id_account = %s'
     _SEARCH_BY_ID = 'SELECT * FROM accounts WHERE id_account = %s'
     _SEARCH_BY_APP_NAME = 'SELECT * FROM accounts WHERE app_name = %s'
+    _GET_PASSWORD_ID = 'SELECT password FROM accounts WHERE id_account = %s'
+    _GET_PASSWORD_APP_NAME = 'SELECT password FROM accounts WHERE app_name = %s'
     
     @classmethod
     def select(cls):
@@ -51,7 +53,7 @@ class UserDAO:
     def searchById(cls, user):
         with Cursor() as cur:
             values = (user.id_account,)
-            cur.execute(cls._searchById, values)
+            cur.execute(cls._SEARCH_BY_ID, values)
             registers = cur.fetchall()
             users = []
             for i in registers:
@@ -63,10 +65,30 @@ class UserDAO:
     def searchByAppName(cls, user):
         with Cursor() as cur:
             values = (user.app_name,)
-            cur.execute(cls._searchByAppName, values)
+            cur.execute(cls._SEARCH_BY_APP_NAME, values)
             registers = cur.fetchall()
             users = []
             for i in registers:
                 user = User(i[0], i[1], i[2], i[3], i[4])
                 users.append(user)
+            return users
+    
+    @classmethod
+    def getPasswordID(cls, user):
+        with Cursor() as cur:
+            values = (user.id_account,)
+            cur.execute(cls._GET_PASSWORD_ID, values)
+            registers = cur.fetchall()
+            for i in registers:
+                users = i
+            return users
+    
+    @classmethod
+    def getPasswordAppName(cls, user):
+        with Cursor() as cur:
+            values = (user.app_name,)
+            cur.execute(cls._GET_PASSWORD_APP_NAME, values)
+            registers = cur.fetchall()
+            for i in registers:
+                users = i
             return users

@@ -50,12 +50,12 @@ Please enter your password => '''
         
         if validate_password:
             system('cls')
-            main_menu()
+            mainMenu()
         else:
             system('cls')
             print('Invalid password, try again.')
 
-def main_menu():
+def mainMenu():
     menu = '''
 What would you like to do?
     1) List your accounts.
@@ -76,6 +76,12 @@ Use the appropiate number to choose an action.
         if decision == 1:
             system('cls')
             listAccount()
+        elif decision == 2:
+            system('cls')
+            SearchAccountMenu()
+        elif decision == 3:
+            system('cls')
+            getPasswordMenu()
         elif decision == 4:
             system('cls')
             addAccount()
@@ -96,17 +102,9 @@ Use the appropiate number to choose an action.
             system('cls')
             print('Invalid option, try again.')
 
-def listAccount():
-    accounts = UserDAO.select()
-    if accounts == []:
-        log.info('You have no accounts stored.')
-    else:
-        for i in accounts:
-            log.info(i)
-
-def SearchAccount():
+def SearchAccountMenu():
     menu = '''
-What would you like to do?
+How would you like to search your account?
     1) Search by ID.
     2) Search by App Name.
     3) Return to main menu.
@@ -119,16 +117,76 @@ Use the appropiate number to choose an action.
         
         if decision == 1:
             system('cls')
-            # Take to search by id fucntion.
+            searchByID()
         elif decision == 2:
             system('cls')
-            # Take to search by app name function.
+            searchByAppName()
         elif decision == 3:
             system('cls')
-            main_menu()
+            mainMenu()
         else:
             system('cls')
             print('Invalid option, try again.')
+
+def getPasswordMenu():
+    menu = '''
+How would you like to select the account?
+    1) By ID.
+    2) By App Name.
+    3) Return to main menu.
+Use the appropiate number to choose an action.
+ > '''
+ 
+    while True:
+        
+        decision = int(input(menu))
+        
+        if decision == 1:
+            system('cls')
+            getPasswordByID()
+        elif decision == 2:
+            system('cls')
+            getPasswordByAppName()
+        elif decision == 3:
+            system('cls')
+            mainMenu()
+        else:
+            system('cls')
+            print('Invalid option, try again.')
+
+def searchByID():
+    idAccount = input('Enter the ID to search => ')
+    
+    accounts = User(id_account=idAccount)
+    results = UserDAO.searchById(accounts)
+    print('\n')
+    print('Results:')
+    if results == []:
+        log.info('There is not an account with the ID provided.')
+    else:
+        for i in results:
+            log.info(i)
+
+def searchByAppName():
+    appName = input('Enter the app name to search => ')
+    
+    accounts = User(app_name=appName)
+    results = UserDAO.searchByAppName(accounts)
+    print('\n')
+    print('Results:')
+    if results == []:
+        log.info('There are no accounts with the app name you provided => ')
+    else:
+        for i in results:
+            log.info(i)
+
+def listAccount():
+    accounts = UserDAO.select()
+    if accounts == []:
+        log.info('You have no accounts stored.')
+    else:
+        for i in accounts:
+            log.info(i)
 
 def addAccount():
     app_name = input('Enter de site or app name => ')
@@ -175,6 +233,38 @@ def generatePassword():
         print('\n')
         print(f'Here is your password: {password}')
         print('Your password has been copied to the clipboard.')
+
+def getPasswordByID():
+    idAccount = input('Enter the ID => ')
+    
+    password = User(id_account=idAccount)
+    result = UserDAO.getPasswordID(password)
+    print('\n')
+    print('Result:')
+    if result == []:
+        log.info('The ID provided couldn\'t be found.')
+    else:
+        for i in result:
+            pc.copy(i)
+            log.info(i)
+        print('\n')
+        print('The password has been copied to your clipboard.')
+
+def getPasswordByAppName():
+    appName = input('Enter the app name => ')
+    
+    password = User(app_name=appName)
+    result = UserDAO.getPasswordAppName(password)
+    print('\n')
+    print('Result:')
+    if result == []:
+        log.info('The ID provided couldn\'t be found.')
+    else:
+        for i in result:
+            pc.copy(i)
+            log.info(i)
+        print('\n')
+        print('The password has been copied to your clipboard.')
 
 # Output
 welcome()
