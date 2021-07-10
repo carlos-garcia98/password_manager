@@ -5,11 +5,13 @@ import sys
 
 class Connection:
     
+    # Change this with you database information
     _USER = 'postgres'
     _PASSWORD = ''
     _HOST = 'localhost'
     _PORT = '5432'
     _DB = 'password_manager'
+    
     _MIN_CONN = 1
     _MAX_CONN = 1
     _pool = None
