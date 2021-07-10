@@ -6,7 +6,7 @@ import sys
 class Connection:
     
     _USER = 'postgres'
-    _PASSWORD = 'yasuraoka060698'
+    _PASSWORD = ''
     _HOST = 'localhost'
     _PORT = '5432'
     _DB = 'password_manager'
