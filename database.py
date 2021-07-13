@@ -5,6 +5,17 @@ import sqlite3 as sl
 class Connection:
     
     # QUERIES
+    # MASTER PASSWORD TABLE QUERIES
+    _CREATE_MASTER_PASSWORD_TABLE = '''CREATE TABLE IF NOT EXISTS masterPassword(
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        password TEXT NOT NULL)'''
+    _SELECT_MP = 'SELECT password FROM masterPassword WHERE id=1'
+    _SELECT_PASSWORD_MP = 'SELECT password FROM masterPassword WHERE id=1 AND password=?'
+    _INSERT_MP = 'INSERT INTO masterPassword(password) VALUES(?)'
+    _UPDATE_MP = 'UPDATE masterPassword SET password=? WHERE id=1'
+    _DELETE_MP = 'DELETE FROM masterPassword WHERE id=1'
+    
+    # MAIN TABLE QUERIES
     _CREATE_MAIN_TABLE = '''CREATE TABLE IF NOT EXISTS accounts(
         id_account INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         app_name TEXT NOT NULL,
@@ -43,6 +54,36 @@ class Connection:
         else:
             return cls._cursor
     
+    # MASTER PASSWORD TABLE
+    @classmethod
+    def create_mp_table(cls):
+        cursor = Connection.get_cursor()
+        cursor.execute(cls._CREATE_MASTER_PASSWORD_TABLE)
+    
+    @classmethod
+    def select_mp(cls):
+        cursor = Connection.get_cursor()
+        cursor.execute(cls._SELECT_MP)
+        registers = cursor.fetchall()
+        return registers
+    
+    @classmethod
+    def select_password_mp(cls, password):
+        cursor = Connection.get_cursor()
+        values = (password,)
+        cursor.execute(cls._SELECT_PASSWORD_MP, values)
+        registers = cursor.fetchall()
+        return  registers
+    
+    @classmethod
+    def insert_mp(cls, password):
+        connection = Connection.get_connection()
+        cursor = Connection.get_cursor()
+        values = (password,)
+        cursor.execute(cls._INSERT_MP, values)
+        connection.commit()
+    
+    # MAIN TABLE
     @classmethod
     def create_table(cls):
         cursor = Connection.get_cursor()
@@ -131,22 +172,4 @@ class Connection:
         registers = cursor.fetchall()
         for i in registers:
             password = i
-        return password
-
-if __name__ == "__main__":
-    # CONNECTION TEST
-    # Connection.get_connection()
-    # Connection.get_cursor()
-    
-    # CREATE TABLE TEST
-    Connection.create_table()
-    
-    # INSERT TEST
-    # account = User(app_name='test', username='testaccount', password='test123', url='testurl')
-    # inserted_accounts = Connection.insert(account)
-    # log.debug(f'Inserted accounts: {inserted_accounts}')
-    
-    # SELECT TEST
-    accounts = Connection.select()
-    for i in accounts:
-        log.debug(i)
+        return password    

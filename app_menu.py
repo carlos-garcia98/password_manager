@@ -1,11 +1,11 @@
 from database import Connection
 from users import User
 from logger_base import log
-from werkzeug.security import check_password_hash
 from os import system
 import pyperclip as pc
 import stdiomask
 import random
+import hashlib
 
 # Functions
 def welcome():
@@ -19,14 +19,19 @@ Use the appropiate number to choose an action.
 > '''
 
     Connection.create_table()
+    Connection.create_mp_table()
 
     while True:
-
+    
         decision = int(input(welcome))
         
         if decision == 1:
             system('cls')
-            sign_in()
+            check = Connection.select_mp()
+            if check:
+                sign_in()
+            else:
+                setMasterPassword()
         elif decision == 2:
             system('cls')
             Connection.get_connection().close()
@@ -36,10 +41,24 @@ Use the appropiate number to choose an action.
             system('cls')
             print('Invalid opcion, please try again.')
 
+def setMasterPassword():
+    while True:
+        
+        print('Please set your master password:')
+        password1 = stdiomask.getpass(prompt='Enter the password => ')
+        password2 = stdiomask.getpass(prompt='Re-enter the password => ')
+        
+        if password1 == password2:
+            hash_password = hashlib.md5(password1.encode('utf-8'))
+            encrypt_password = hash_password.hexdigest()
+            Connection.insert_mp(encrypt_password)
+            system('cls')
+            sign_in()
+        else:
+            system('cls')
+            print('Passwords does not match.')
+
 def sign_in():
-    # You can change the content of this variable with another hashed password, so you can use your own master password.
-    hashed_password = 'pbkdf2:sha256:260000$58R5RfR8SGZ3dhfm$f30b18300689d90fb2dcdf88232f627102c2ce62bbc2a00003a7eb456624bc71' 
-    
     sign_in = '''
 Welcome to yout Password Manager!
 
@@ -47,9 +66,10 @@ Please enter your password => '''
 
     while True:
 
-        # password = input(sign_in)
         password = stdiomask.getpass(prompt=sign_in)
-        validate_password = check_password_hash(hashed_password, password)
+        hashed_password = hashlib.md5(password.encode('utf-8'))
+        encrypt_password = hashed_password.hexdigest()
+        validate_password = Connection.select_password_mp(encrypt_password)
         
         if validate_password:
             system('cls')
