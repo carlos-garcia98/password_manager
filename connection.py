@@ -7,7 +7,7 @@ class Connection:
     
     # Change this with you database information
     _USER = 'postgres'
-    _PASSWORD = ''
+    _PASSWORD = 'yasuraoka060698'
     _HOST = 'localhost'
     _PORT = '5432'
     _DB = 'password_manager'
