@@ -44,7 +44,6 @@ Please enter your password => '''
 
     while True:
 
-        # password = input(sign_in)
         password = stdiomask.getpass(prompt=sign_in)
         validate_password = check_password_hash(hashed_password, password)
         
