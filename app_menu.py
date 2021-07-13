@@ -1,4 +1,4 @@
-from user_dao import UserDAO
+from database import Connection
 from users import User
 from logger_base import log
 from werkzeug.security import check_password_hash
@@ -18,6 +18,8 @@ What would you like to do:
 Use the appropiate number to choose an action.
 > '''
 
+    Connection.create_table()
+
     while True:
 
         decision = int(input(welcome))
@@ -27,6 +29,7 @@ Use the appropiate number to choose an action.
             sign_in()
         elif decision == 2:
             system('cls')
+            Connection.get_connection().close()
             print('Goodbye!')
             exit()
         else:
@@ -96,6 +99,7 @@ Use the appropiate number to choose an action.
             generatePassword()
         elif decision == 8:
             system('cls')
+            Connection.get_connection().close()
             print('Goodbye!')
             exit()
         else:
@@ -158,7 +162,7 @@ def searchByID():
     idAccount = input('Enter the ID to search => ')
     
     accounts = User(id_account=idAccount)
-    results = UserDAO.searchById(accounts)
+    results = Connection.select_by_id(accounts)
     print('\n')
     print('Results:')
     if results == []:
@@ -171,7 +175,7 @@ def searchByAppName():
     appName = input('Enter the app name to search => ')
     
     accounts = User(app_name=appName)
-    results = UserDAO.searchByAppName(accounts)
+    results = Connection.select_by_app_name(accounts)
     print('\n')
     print('Results:')
     if results == []:
@@ -181,7 +185,7 @@ def searchByAppName():
             log.info(i)
 
 def listAccount():
-    accounts = UserDAO.select()
+    accounts = Connection.select()
     if accounts == []:
         log.info('You have no accounts stored.')
     else:
@@ -195,7 +199,7 @@ def addAccount():
     url = input('Enter the url => ')
     print('\n')
     account = User(app_name=app_name, username=username, password=password, url=url) 
-    inserted_account = UserDAO.insert(account)
+    inserted_account = Connection.insert(account)
     print('\n')
     log.info(f'Inserted accounts: {inserted_account}')
     
@@ -207,7 +211,7 @@ def modifyAccount():
     id_account = int(input('Enter the id_account => '))
     print('\n')
     account = User(app_name=app_name, username=username, password=password, url=url, id_account=id_account)
-    modified_accounts = UserDAO.update(account)
+    modified_accounts = Connection.update(account)
     print('\n')
     log.info(f'Modified accounts: {modified_accounts}')
     
@@ -215,7 +219,7 @@ def deleteAccount():
     id_account = int(input('Enter the account id you would like to delete => '))
     print('\n')
     account = User(id_account=id_account)
-    deleted_account = UserDAO.delete(account)
+    deleted_account = Connection.delete(account)
     print('\n')
     log.info(f'Deleted accounts: {deleted_account}')
 
@@ -238,7 +242,7 @@ def getPasswordByID():
     idAccount = input('Enter the ID => ')
     
     password = User(id_account=idAccount)
-    result = UserDAO.getPasswordID(password)
+    result = Connection.get_password_by_id(password)
     print('\n')
     print('Result:')
     if result == []:
@@ -254,7 +258,7 @@ def getPasswordByAppName():
     appName = input('Enter the app name => ')
     
     password = User(app_name=appName)
-    result = UserDAO.getPasswordAppName(password)
+    result = Connection.get_password_by_app_name(password)
     print('\n')
     print('Result:')
     if result == []:
