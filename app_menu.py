@@ -22,24 +22,29 @@ Use the appropiate number to choose an action.
     Connection.create_mp_table()
 
     while True:
+        try:
+            
+                decision = int(input(welcome))
+                
+                if decision == 1:
+                    system('cls')
+                    check = Connection.select_mp()
+                    if check:
+                        sign_in()
+                    else:
+                        setMasterPassword()
+                elif decision == 2:
+                    system('cls')
+                    Connection.get_connection().close()
+                    print('Goodbye!')
+                    exit()
+                else:
+                    system('cls')
+                    print('Invalid opcion, please try again.')
+        except ValueError:
+            system('cls')
+            print('Invalid value, please try again.')    
     
-        decision = int(input(welcome))
-        
-        if decision == 1:
-            system('cls')
-            check = Connection.select_mp()
-            if check:
-                sign_in()
-            else:
-                setMasterPassword()
-        elif decision == 2:
-            system('cls')
-            Connection.get_connection().close()
-            print('Goodbye!')
-            exit()
-        else:
-            system('cls')
-            print('Invalid opcion, please try again.')
 
 def setMasterPassword():
     while True:
@@ -93,38 +98,42 @@ Use the appropiate number to choose an action.
  > '''
  
     while True:
-        
-        decision = int(input(menu))
-        
-        if decision == 1:
+        try:
+            
+            decision = int(input(menu))
+            
+            if decision == 1:
+                system('cls')
+                listAccount()
+            elif decision == 2:
+                system('cls')
+                SearchAccountMenu()
+            elif decision == 3:
+                system('cls')
+                getPasswordMenu()
+            elif decision == 4:
+                system('cls')
+                addAccount()
+            elif decision == 5:
+                system('cls')
+                modifyAccount()
+            elif decision == 6:
+                system('cls')
+                deleteAccount()
+            elif decision == 7:
+                system('cls')
+                generatePassword()
+            elif decision == 8:
+                system('cls')
+                Connection.get_connection().close()
+                print('Goodbye!')
+                exit()
+            else:
+                system('cls')
+                print('Invalid option, try again.')
+        except ValueError:
             system('cls')
-            listAccount()
-        elif decision == 2:
-            system('cls')
-            SearchAccountMenu()
-        elif decision == 3:
-            system('cls')
-            getPasswordMenu()
-        elif decision == 4:
-            system('cls')
-            addAccount()
-        elif decision == 5:
-            system('cls')
-            modifyAccount()
-        elif decision == 6:
-            system('cls')
-            deleteAccount()
-        elif decision == 7:
-            system('cls')
-            generatePassword()
-        elif decision == 8:
-            system('cls')
-            Connection.get_connection().close()
-            print('Goodbye!')
-            exit()
-        else:
-            system('cls')
-            print('Invalid option, try again.')
+            print('Invalid value, try again.')
 
 def SearchAccountMenu():
     menu = '''
@@ -136,21 +145,25 @@ Use the appropiate number to choose an action.
  > '''
  
     while True:
-        
-        decision = int(input(menu))
-        
-        if decision == 1:
+        try:
+            
+            decision = int(input(menu))
+            
+            if decision == 1:
+                system('cls')
+                searchByID()
+            elif decision == 2:
+                system('cls')
+                searchByAppName()
+            elif decision == 3:
+                system('cls')
+                mainMenu()
+            else:
+                system('cls')
+                print('Invalid option, try again.')
+        except ValueError:
             system('cls')
-            searchByID()
-        elif decision == 2:
-            system('cls')
-            searchByAppName()
-        elif decision == 3:
-            system('cls')
-            mainMenu()
-        else:
-            system('cls')
-            print('Invalid option, try again.')
+            print('Invalid value, try again.')
 
 def getPasswordMenu():
     menu = '''
@@ -162,21 +175,24 @@ Use the appropiate number to choose an action.
  > '''
  
     while True:
-        
-        decision = int(input(menu))
-        
-        if decision == 1:
+        try:
+            decision = int(input(menu))
+            
+            if decision == 1:
+                system('cls')
+                getPasswordByID()
+            elif decision == 2:
+                system('cls')
+                getPasswordByAppName()
+            elif decision == 3:
+                system('cls')
+                mainMenu()
+            else:
+                system('cls')
+                print('Invalid option, try again.')
+        except ValueError:
             system('cls')
-            getPasswordByID()
-        elif decision == 2:
-            system('cls')
-            getPasswordByAppName()
-        elif decision == 3:
-            system('cls')
-            mainMenu()
-        else:
-            system('cls')
-            print('Invalid option, try again.')
+            print('Invalid value, try again.')
 
 def searchByID():
     idAccount = input('Enter the ID to search => ')
