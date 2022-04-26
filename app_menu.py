@@ -215,7 +215,7 @@ def searchByAppName():
     print('\n')
     print('Results:')
     if results == []:
-        log.info('There are no accounts with the app name you provided => ')
+        log.info('There are no accounts with the app name you provided.')
     else:
         for i in results:
             log.info(i)
